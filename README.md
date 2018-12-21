@@ -12,3 +12,7 @@ jsp中嵌套java
 ```
 <%@ import="foo.*, java.util.*" %>
 ```
+3 jsp表达式 不需要显式地打印 表达式以<%= 开始
+```
+<%= Counter.getCount() %>
+```
