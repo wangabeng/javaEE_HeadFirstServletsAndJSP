@@ -21,3 +21,12 @@ jsp中嵌套java
 <%! int count = 0; %> <!-- count是一个全局变量 -->
 <%= ++count %>
 ```
+声明一个全局方法  
+```
+<%! int count = 0; %>
+<%!= int doubleCount () {
+    count = count * 2;
+    return count;
+  } 
+%>
+```
