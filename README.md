@@ -129,3 +129,5 @@ view.forward(request, response);
 ```
 
 # chp5 属性和监听者
+## 不要把email信息账号信息 硬编码到servlet类中
+182
