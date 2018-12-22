@@ -106,3 +106,13 @@ javac -classpath ./servlet-api.jar -d classes ./src/Ch1Servlet.java
 String color = request.getParameter("color");// 字符串
 String[] sizes = request.getParameterValues("size"); // 获取字符串数组
 ```
+3 获取请求头
+request.getHeader("User-Agent")
+与cookie有关的  
+request.getCookies()
+与session有关的  
+request.getSession()
+与请求的hhtp方法有关的    
+request.getMethod()
+输入的流  
+request.getInputStream()
