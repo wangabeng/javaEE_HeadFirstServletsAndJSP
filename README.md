@@ -31,4 +31,14 @@ jsp中嵌套java
 %>
 ```
 
+# 初始化一个servlet
+1 项目所在目录 E:\apache-tomcat7\webapps  
+2 项目根目录  
+  ch1/WEB-INF/classes （编译的class文件夹） 
+  ch1/WEB-INF/web.xml （xml配置文件）
+  ch1/WEB-INF/src （java文件 工作临时目录 临时） 
+  ch1/WEB-INF/servlet-api.jar (tomcat提供的工具包文件 临时)
+  
+
+
 
