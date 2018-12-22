@@ -116,3 +116,16 @@ request.getSession()
 request.getMethod()
 输入的流  
 request.getInputStream()
+
+# 重定向和需求转发
+重定向是发生在客户端
+```
+response.sendRedirect("http://www.baidu.com");
+```
+需求转发是在服务器端
+```
+RequestDispatcher view = request.getRequestDispatcher("result.jsp");
+view.forward(request, response);
+```
+
+# chp5 属性和监听者
