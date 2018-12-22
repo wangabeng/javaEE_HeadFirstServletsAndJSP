@@ -96,8 +96,13 @@ javac -classpath ./servlet-api.jar -d classes ./src/Ch1Servlet.java
   <option value='b'>b</option>
   <option value='c'>c</option>
 </select>
+
+<input type="checkbox" name="size" value="flow">
+<input type="checkbox" name="size" value="flow2">
+<input type="checkbox" name="size" value="flow3">
 ```
 2 servlet获取参数  
 ```
-String color = request.getParameter("color");
+String color = request.getParameter("color");// 字符串
+String[] sizes = request.getParameterValues("size"); // 获取字符串数组
 ```
