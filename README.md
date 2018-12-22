@@ -88,4 +88,16 @@ javac -classpath ./servlet-api.jar -d classes ./src/Ch1Servlet.java
 ```
 6 重新启动tomcat
 
-
+# servlet获取页面参数
+1 页面传递参数  color 值位a
+```
+<select name='color'>
+  <option value='a'>a</option>
+  <option value='b'>b</option>
+  <option value='c'>c</option>
+</select>
+```
+2 servlet获取参数  
+```
+String color = request.getParameter("color");
+```
