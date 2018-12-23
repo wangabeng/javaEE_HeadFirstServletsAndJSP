@@ -130,4 +130,8 @@ view.forward(request, response);
 
 # chp5 属性和监听者
 ## 不要把email信息账号信息 硬编码到servlet类中
-182
+
+# 在eclipse中创建servlet或jsp项目
+1 安装exlipse for javaee （要用就版的 新版的是2018年12月份出的 不知道怎么用）
+2 在eclipse中配置tomcat
+3 在eclipse中创建servlet或jsp项目
