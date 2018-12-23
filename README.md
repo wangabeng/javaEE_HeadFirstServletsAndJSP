@@ -250,7 +250,7 @@ servlet得到一个请求 执行Wangabeng类的内容 --
 先执行MyServletContextListener（监听者） 后执行Wangabeng（servlet类） 
 
 见如下示意图：
-![avatar] url(/img/监听者工作流程.jpg)
+![avatar](/img/监听者工作流程.jpg)
  
 1 在DD部署文件中放一个 <listener> 元素
 ```
