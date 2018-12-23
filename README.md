@@ -131,7 +131,57 @@ view.forward(request, response);
 # chp5 属性和监听者
 ## 不要把email信息账号信息 硬编码到servlet类中
 
-# 在eclipse中创建servlet或jsp项目
-1 安装exlipse for javaee （要用就版的 新版的是2018年12月份出的 不知道怎么用）
-2 在eclipse中配置tomcat
-3 在eclipse中创建servlet或jsp项目
+## servletConfig和servletContext
+每个servlet有一个servletConfig  
+每个web应用有一个servletContext
+
+# 如果你的应用分布在多个服务器上，可能在一个集群环境中，那么web应用实际上可以有多个ServletContext。一个servletContext确实只对应一个应用，但是前提是在一个JVM中（JVM可以理解成我的window系统中安装的centos虚拟机）。如果在一个分布式的环境，这会带来问题的。
+
+# 案例 设置servletConfig
+1 在DD配置文件中特定的servlet中配置servletConfig
+```
+ <servlet>
+     <servlet-name>dateServlet</servlet-name>
+     <servlet-class>abeng.Wangabeng</servlet-class>
+     <init-param>
+        <param-name>foo</param-name>
+        <param-value>value</param-value>  
+     </init-param>
+ </servlet>
+```
+2 在servlet类中获取该值  
+```
+package abeng;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.util.Date;
+import java.io.IOException;
+import java.io.PrintWriter;
+public class Wangabeng extends HttpServlet {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
+         Date date=new Date();
+         response.setContentType("text/html");
+         PrintWriter out=response.getWriter();
+         out.println("now:"+date);
+         String paremeterValue = getServletConfig().getInitParameter("foo"); // 获取该值
+         out.println("config值" + paremeterValue);
+         out.close();
+     }
+}
+```
+
+
+# 在eclipse中创建servlet或jsp项目  
+1 安装exlipse for javaee （要用就版的 新版的是2018年12月份出的 不知道怎么用 我的系统安装备份中保存有）  
+2 在eclipse中配置tomcat 见 https://www.cnblogs.com/conquerorren/p/7879083.html  
+3 在eclipse中创建servlet或jsp项目  
+（配置jsp项目 见https://www.cnblogs.com/conquerorren/p/7879083.html）  
+（配置servlet项目 见https://www.cnblogs.com/mosese/p/4558776.html）  
+
+# 用exlipse以后 免去了手工编译java的烦恼 工作效率大大提高了
+
+# 教程一个简单的servletContextListerner
