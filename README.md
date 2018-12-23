@@ -242,9 +242,15 @@ public class Wangabeng extends HttpServlet {
 容器为上下文初始化参数创建名值对 -- 
 容器将名/值参数既爱哦给ServletContext --  
 容器创建一个新的MyServletContextListener类 --  
-容器调用监听者的contextInitialized方法 --  
+容器调用监听者的contextInitialized方法 （获取参数 创建Dog 创建新的dog参数并把dog实例传给dog参数） --  
+容器创建一个新的serlet（也就是说 利用初始化参数 建立一个新的ServletContext） --  
+servlet得到一个请求 执行Wangabeng类的内容 --  
 
+概括起来执行顺序  
+先执行MyServletContextListener（监听者） 后执行Wangabeng（servlet类） 
 
+见如下示意图：
+![avatar] url(/img/监听者工作流程.jpg)
  
 1 在DD部署文件中放一个 <listener> 元素
 ```
