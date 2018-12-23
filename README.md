@@ -137,7 +137,7 @@ view.forward(request, response);
 
 # 如果你的应用分布在多个服务器上，可能在一个集群环境中，那么web应用实际上可以有多个ServletContext。一个servletContext确实只对应一个应用，但是前提是在一个JVM中（JVM可以理解成我的window系统中安装的centos虚拟机）。如果在一个分布式的环境，这会带来问题的。
 
-# 案例 设置servletConfig
+# 案例 设置servletConfig  并使用之
 1 在DD配置文件中特定的servlet中配置servletConfig
 ```
  <servlet>
@@ -173,7 +173,46 @@ public class Wangabeng extends HttpServlet {
      }
 }
 ```
+# 案例 设置servletContext  并使用之
+1 在dd文件中配置
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>firstservlet</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>foo</param-name>
+    <param-value>bar</param-value>
+  </context-param>
+   <servlet>
+       <servlet-name>dateServlet</servlet-name>
+       <servlet-class>abeng.Wangabeng</servlet-class>
+       <init-param>
+          <param-name>foo</param-name>
+          <param-value>value</param-value>  
+       </init-param>
+   </servlet>
+   <servlet-mapping>
+       <servlet-name>dateServlet</servlet-name>
+       <url-pattern>/date</url-pattern>
+   </servlet-mapping>  
+</web-app>
+```
+2 在类中获取该servletContext值
+```
+ String paremeterContext = getServletContext().getInitParameter("foo");
+ out.println("context值" + paremeterContext);
+```
 
+# servletConfig和servletContext遇到的问题
+都是在servlet初始化的时候 才能获取到这两个值。注意，只能获取改值，不能在servlet中设置。
 
 # 在eclipse中创建servlet或jsp项目  
 1 安装exlipse for javaee （要用就版的 新版的是2018年12月份出的 不知道怎么用 我的系统安装备份中保存有）  
@@ -184,4 +223,115 @@ public class Wangabeng extends HttpServlet {
 
 # 用exlipse以后 免去了手工编译java的烦恼 工作效率大大提高了
 
+# 用数据库来初始化一个参数配置 替代servletConfig 和servletContext（只能是string）  
+
+
+## servletContextListerner基本职能
+1 在上下文初始化时执行：
+  1 从ServletContext得到上下文初始化参数  
+  2 使用初始化参数查找名建立一个数据库连接  
+  3 把数据库连接存储为一个属性，使得web应用的各个部分都能访问。
+2 上下文撤销时得到通知  
+  1 关闭数据库连接  
+
+
 # 教程一个简单的servletContextListerner
+此案例的完整执行流程
+容器读取DD文件 -- 
+容器为这个应用创建新的ServletContext -- 
+容器为上下文初始化参数创建名值对 -- 
+容器将名/值参数既爱哦给ServletContext --  
+容器创建一个新的MyServletContextListener类 --  
+容器调用监听者的contextInitialized方法 --  
+
+
+ 
+1 在DD部署文件中放一个 <listener> 元素
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <context-param>
+    <param-name>bread</param-name>
+    <param-value>bread value hahaah</param-value>
+  </context-param>
+  <listener>
+    <listener-class>abeng.MyServletContextListener</listener-class>
+  </listener>
+   <servlet>
+       <servlet-name>testlistner</servlet-name>
+       <servlet-class>abeng.Wangabeng</servlet-class>
+   </servlet>
+   <servlet-mapping>
+       <servlet-name>testlistner</servlet-name>
+       <url-pattern>/testlistner</url-pattern>
+   </servlet-mapping>  
+</web-app>
+```
+
+2 在java/src新建的包中 新建一个类
+MyServletContextListener.java
+```
+package abeng;
+
+import javax.servlet.*;
+
+public class MyServletContextListener implements ServletContextListener {
+  public void contextInitialized (ServletContextEvent event) {
+    // do sth
+  ServletContext sc = event.getServletContext();
+  String dogBreed = sc.getInitParameter("bread");
+  
+  Dog d = new Dog(dogBreed);
+  sc.setAttribute("dog", d);
+  }
+  public void contextDestroyed (ServletContextEvent event) {
+      // do sth
+    }
+}
+``` 
+
+3 在java/src新建的包中 新建一个Dog类
+```
+package abeng;
+
+public class Dog {
+  private String breed;
+  public Dog(String breed) {
+    this.breed = breed;
+  }
+  public String getBreed () {
+    return breed;
+  }
+}
+
+```
+
+4 在java/src新建的包中 新建一个servlet类 Wangabeng.java
+```
+package abeng;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+
+public class Wangabeng extends HttpServlet {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
+         
+         response.setContentType("text/html");
+         PrintWriter out=response.getWriter();
+         
+         out.println("test lisentener<br>");
+         
+         Dog dog = (Dog) getServletContext().getAttribute("dog");
+         
+         out.println("Dog's breed is:" + dog.getBreed());
+     }
+}
+```
+
+5 重新启动tomcat 
+浏览器输入 http://localhost:8080/secondDynamicWeb/testlistner
+```
+test lisentener
+ Dog's breed is:bread value hahaah 
+```
