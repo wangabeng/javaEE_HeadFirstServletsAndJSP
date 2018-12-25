@@ -347,3 +347,6 @@ test lisentener
 
 # 属性和参数区别
 ![avatar](/img/属性和参数区别.png)
+
+# 属性API
+![avatar](/img/属性API.png)
