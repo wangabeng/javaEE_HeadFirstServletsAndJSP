@@ -371,6 +371,41 @@ RequestDispatcher view = getServletContext().getRequestDispatcher("result.jsp")
 
 
 # chp6 会话状态  
+# 初次设置session
+```
+package com;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*; // session工具
+
+import java.util.Date;
+import java.io.IOException;
+import java.io.PrintWriter;
+public class Ben extends HttpServlet {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
+         Date date=new Date();
+         response.setContentType("text/html");
+         PrintWriter out=response.getWriter();
+         out.println("now:"+date);
+         String paremeterValue = getServletConfig().getInitParameter("foo"); // 获取该值
+         out.println("config值" + paremeterValue);
+         
+         HttpSession session = request.getSession(false);
+         if (session == null) {
+           session = request.getSession();
+           out.println("isNew");
+         } else {
+           out.println("no new");
+         }
+         out.close();
+     }
+}
+
+```
+
 # Servlet中session获取
 设置  
 session.setAttribute("zhoulitong", "very good!"); 
@@ -400,4 +435,21 @@ public void doGet(HttpServletRequest request, HttpServletResponse response)
     response.getWriter().println("ip=" + ip +","+ zhoulitong);  
 }  
 ```
+# 删除session的三种方法
+1 在DD中配置会话超时(15是15分钟)  
+```
+<web-app --->
+  <servlet>
+    ---
+  </servlet>
+  <session-config>
+    <session-timeout>15</session-timeout>
+  </session-config>  
+</web-app>
+```
+2 设置特定会话的会话超时(20 × 60为20分钟，如果客户在20分钟内没有对此会话做任何请求，就会杀死它)  
+```
+session.setMaxInactiveInterval(20*60)
+```
+
 
