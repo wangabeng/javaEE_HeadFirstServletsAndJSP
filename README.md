@@ -128,6 +128,37 @@ RequestDispatcher view = request.getRequestDispatcher("result.jsp");
 view.forward(request, response);
 ```
 
+# Servlet中session获取
+设置  
+session.setAttribute("zhoulitong", "very good!"); 
+获取  
+session.getAttribute("zhoulitong");  
+
+Session写入：
+```
+public void doGet(HttpServletRequest request, HttpServletResponse response)  
+        throws ServletException, IOException {  
+      
+        HttpSession session = request.getSession(true);  
+        session.setAttribute("ip", request.getRemoteAddr());  
+        session.setAttribute("zhoulitong", "very good!");  
+          
+        response.getWriter().println("SetSession OK!");  
+}  
+```
+Session读取：  
+```
+public void doGet(HttpServletRequest request, HttpServletResponse response)  
+        throws ServletException, IOException {  
+  
+    HttpSession session = request.getSession(true);  
+    String ip = (String)session.getAttribute("ip");  
+    String zhoulitong = (String)session.getAttribute("zhoulitong");  
+    response.getWriter().println("ip=" + ip +","+ zhoulitong);  
+}  
+```
+
+
 # chp5 属性和监听者
 ## 不要把email信息账号信息 硬编码到servlet类中
 
@@ -355,3 +386,21 @@ test lisentener
 
 # 对HttpSession同步来保护会话属性
 ![avatar](/img/同步session.png)
+这样存在的问题：一个用户自身每次 同时打开A浏览器和B浏览器 也只能访问一个servlet
+
+# 如何保证一个servlet一次只能得到并处理一个请求(page200) 无解？
+
+# 请求属性和请求分派(page205)  
+![avatar](/img/请求属性和请求分派.png)
+
+# 得到RequestDispatcher的两种方法  
+1 从ServletRequest得到  
+RequestDispatcher view = request.getRequestDispatcher("result.jsp")  
+2 从ServletContext获得  
+RequestDispatcher view = getServletContext().getRequestDispatcher("result.jsp")  
+然后执行view.forward(request, response)  
+
+
+# chp6 会话状态  
+
+
