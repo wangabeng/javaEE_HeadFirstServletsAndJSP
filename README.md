@@ -341,3 +341,9 @@ public class Wangabeng extends HttpServlet {
 test lisentener
  Dog's breed is:bread value hahaah 
 ```
+
+# chep5 属性
+属性就是一个对象，可能设置（绑定）到另外3个servlet API对象中的某一个，包括 ServletContext HttpServletRequest(或ServletRequest)或者HttpSession。可以把它简单地认为是一个映射实例对象中的名/值对（名是一个String 值是一个Object）
+
+# 属性和参数区别
+![avatar](/img/属性和参数区别.png)
