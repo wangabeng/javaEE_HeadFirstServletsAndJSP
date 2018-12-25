@@ -350,3 +350,8 @@ test lisentener
 
 # 属性API
 ![avatar](/img/属性API.png)
+
+# 给ServletContext加锁 保证线程安全 不可取
+
+# 对HttpSession同步来保护会话属性
+![avatar](/img/同步session.png)
