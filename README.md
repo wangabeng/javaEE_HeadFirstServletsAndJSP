@@ -128,37 +128,6 @@ RequestDispatcher view = request.getRequestDispatcher("result.jsp");
 view.forward(request, response);
 ```
 
-# Servlet中session获取
-设置  
-session.setAttribute("zhoulitong", "very good!"); 
-获取  
-session.getAttribute("zhoulitong");  
-
-Session写入：
-```
-public void doGet(HttpServletRequest request, HttpServletResponse response)  
-        throws ServletException, IOException {  
-      
-        HttpSession session = request.getSession(true);  
-        session.setAttribute("ip", request.getRemoteAddr());  
-        session.setAttribute("zhoulitong", "very good!");  
-          
-        response.getWriter().println("SetSession OK!");  
-}  
-```
-Session读取：  
-```
-public void doGet(HttpServletRequest request, HttpServletResponse response)  
-        throws ServletException, IOException {  
-  
-    HttpSession session = request.getSession(true);  
-    String ip = (String)session.getAttribute("ip");  
-    String zhoulitong = (String)session.getAttribute("zhoulitong");  
-    response.getWriter().println("ip=" + ip +","+ zhoulitong);  
-}  
-```
-
-
 # chp5 属性和监听者
 ## 不要把email信息账号信息 硬编码到servlet类中
 
@@ -402,5 +371,33 @@ RequestDispatcher view = getServletContext().getRequestDispatcher("result.jsp")
 
 
 # chp6 会话状态  
+# Servlet中session获取
+设置  
+session.setAttribute("zhoulitong", "very good!"); 
+获取  
+session.getAttribute("zhoulitong");  
 
+Session写入：
+```
+public void doGet(HttpServletRequest request, HttpServletResponse response)  
+        throws ServletException, IOException {  
+      
+        HttpSession session = request.getSession(true);  
+        session.setAttribute("ip", request.getRemoteAddr());  
+        session.setAttribute("zhoulitong", "very good!");  
+          
+        response.getWriter().println("SetSession OK!");  
+}  
+```
+Session读取：  
+```
+public void doGet(HttpServletRequest request, HttpServletResponse response)  
+        throws ServletException, IOException {  
+  
+    HttpSession session = request.getSession(true);  
+    String ip = (String)session.getAttribute("ip");  
+    String zhoulitong = (String)session.getAttribute("zhoulitong");  
+    response.getWriter().println("ip=" + ip +","+ zhoulitong);  
+}  
+```
 
