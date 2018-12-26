@@ -451,5 +451,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response)
 ```
 session.setMaxInactiveInterval(20*60)
 ```
-
+3 将session设置为无效  
+```
+session.inValidate(); // 将session设置为无效
+String fooVlaue = (String)session.getAttribute('foo'); // 此时会抛出异常
+```
 
