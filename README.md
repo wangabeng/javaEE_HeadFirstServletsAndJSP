@@ -456,3 +456,20 @@ jsp中嵌套java
   } 
 %>
 ```
+
+# 关于 request.getHeader("referer")的作用
+```
+在开发web程序的时候，有时我们需要得到用户是从什么页面连过来的，这就用到了referer。
+它是http协议，所以任何能开发web程序的语言都可以实现,比如jsp中是：
+request.getHeader("referer");
+php是$_SERVER['HTTP_REFERER']。其他的我就不举例了（其实是不会其他的语言）。
+
+js的话就是这样做：javascript:document.referrer
+那它能干什么用呢？我举两个例子：
+1，防止盗连，比如我是个下载软件的网站，在下载页面我先用referer来判断上一页面是不是自己网站，如果不是，说明有人盗连了你的下载地址。
+2，电子商务网站的安全，我在提交信用卡等重要信息的页面用referer来判断上一页是不是自己的网站，如果不是，可能是黑客用自己写的一个表单，来提交，为了能跳过你上一页里的javascript的验证等目的。
+使用referer的注意事项：
+如果我是直接在浏览器里输入有referer的页面，返回是null（jsp），也就是说referer只有从别的页面点击连接来到这页的才会有内容。
+我做了个实验，比如我的referer代码在a.jsp中，它的上一页面是b.htm，c.htm是一个带有iframe的页面，它把a.jsp嵌在iframe里了。我在浏览器里输入b.htm的地址，然后点击连接去c.htm，那显示的结果是b.htm，如果我在浏览器里直接输入的是c.htm那显示的是c.htm
+```
+参考：https://blog.csdn.net/wclxyn/article/details/7288745
