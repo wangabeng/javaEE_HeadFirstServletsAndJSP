@@ -472,4 +472,6 @@ js的话就是这样做：javascript:document.referrer
 如果我是直接在浏览器里输入有referer的页面，返回是null（jsp），也就是说referer只有从别的页面点击连接来到这页的才会有内容。
 我做了个实验，比如我的referer代码在a.jsp中，它的上一页面是b.htm，c.htm是一个带有iframe的页面，它把a.jsp嵌在iframe里了。我在浏览器里输入b.htm的地址，然后点击连接去c.htm，那显示的结果是b.htm，如果我在浏览器里直接输入的是c.htm那显示的是c.htm
 ```
-参考：https://blog.csdn.net/wclxyn/article/details/7288745
+参考：https://blog.csdn.net/wclxyn/article/details/7288745  
+一个用过滤器防盗链的例子  
+https://www.jb51.net/article/108559.htm
