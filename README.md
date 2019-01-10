@@ -475,3 +475,337 @@ js的话就是这样做：javascript:document.referrer
 参考：https://blog.csdn.net/wclxyn/article/details/7288745  
 一个用过滤器防盗链的例子  
 https://www.jb51.net/article/108559.htm
+
+
+----------------------------------------------
+# 工具包位置
+/jdk/src.zip
+
+# 安装jdbc
+1 下载mysql-connector-java-5.1.47.zip  
+https://dev.mysql.com/downloads/file/?id=480091   
+2 解压找到 mysql-connector-java-5.1.47-bin.jar  
+3 建的如果是web工程，当Class.forName("com.mysql.jdbc.Driver")时，Eclipse是不会去查找字符串，不会去查找驱动。所以需要把mysql-connector-java-5.1.10-bin.jar拷贝到tomcat下lib目录下.  
+4 在Eclipse中配置
+project-右键-properties-java build path-libraries-add external jars - 找到mysql-connector-java-5.1.10-bin.jar- apply即可。
+
+# jdbc报错解决  
+jsp中必须用try catch包裹  
+参考demo  
+http://www.runoob.com/w3cnote/jdbc-use-guide.html
+
+# 一个完整JDBC小demo
+参考http://www.runoob.com/w3cnote/jdbc-use-guide.html
+```
+package testjdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Test {
+
+    public static final String URL = "jdbc:mysql://localhost:3306/test";
+    public static final String USER = "root";
+    public static final String PASSWORD = "";
+
+    public static void main(String[] args) throws Exception {
+        //1.加载驱动程序
+        Class.forName("com.mysql.jdbc.Driver");
+        //2. 获得数据库连接
+        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        //3.操作数据库，实现增删改查
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM table1");
+        //如果有数据，rs.next()返回true
+        while(rs.next()){
+            System.out.println(rs.getString("name"));
+        }
+    }
+}
+
+```
+
+# jsp中的Basepath
+![avatar](/img/base-path.png)  
+解析：  
+```
+request.getSchema()，返回的是当前连接使用的协议，一般应用返回的是http、SSL返回的是https；
+
+request.getServerName()，返回当前页面所在的服务器的名字；
+
+request.getServerPort()，返回当前页面所在的服务器使用的端口，80；
+
+request.getContextPath()，返回当前页面所在的应用的名字。
+```
+
+```
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+```
+然后需要在head标签内添加如下代码
+```
+<base href="<%=basePath%>">
+```
+Basepath其实就是提供了一个默认的绝对路径，相当于：localhost:8080/项目名/，让我们在写路径的时候不再为路径错误导致的404烦恼。  
+```
+<a href = "NewFile-basepath.jsp" >
+```
+就相当于： 
+localhost:8080/项目名/NewFile-basepath.jsp  
+
+#  <welcome-file-list>的作用  
+指定应用的首页  
+里面可以指定多个文件，应用服务器会按从上到下的顺序搜索，如果找到就了进入该页面，如果都遍历完了还没找到就会返回404错误代码给浏览器。
+
+# 复写方法时@Override的作用
+代码错误提示 详见  
+https://www.cnblogs.com/bincoding/p/5725732.html
+
+# 过滤器使用
+https://o7planning.org/en/10395/java-servlet-filter-tutorial
+
+# 关于@WebServlet
+```
+编写好Servlet之后，接下来要告诉Web容器有关于这个Servlet的一些信息。在Servlet 3.0中，可以使用标注(Annotation)来告知容器哪些Servlet会提供服务以及额外信息。例如在HelloServlet.java中：
+
+@WebServlet("/hello.view")  
+public class HelloServlet extends HttpServlet { 
+只要在Servlet上设置@WebServlet标注，容器就会自动读取当中的信息。上面的@WebServlet告诉容器，如果请求的URL是"/hello.view"，则由HelloServlet的实例提供服务。可以使用@WebServlet提供更多信息。
+
+@WebServlet(  
+    name="Hello",   
+    urlPatterns={"/hello.view"},   
+    loadOnStartup=1 
+)  
+public class HelloServlet extends HttpServlet {  
+上面的@WebServlet告知容器，HelloServlet这个Servlet的名称是Hello，这是由name属性指定的，而如果客户端请求的URL是/hello.view，则由具Hello名称的Servlet来处理，这是由urlPatterns属性来指定的。在Java EE相关应用程序中使用标注时，可以记得的是，没有设置的属性通常会有默认值。例如，若没有设置@WebServlet的name属性，默认值会是Servlet的类完整名称。
+
+当应用程序启动后，事实上并没有创建所有的Servlet实例。容器会在首次请求需要某个Servlet服务时，才将对应的Servlet类实例化、进行初始化操作，然后再处理请求。这意味着第一次请求该Servlet的客户端，必须等待Servlet类实例化、进行初始动作所必须花费的时间，才真正得到请求的处理。
+
+如果希望应用程序启动时，就先将Servlet类载入、实例化并做好初始化动作，则可以使用loadOnStartup设置。设置大于0的值(默认值为-1)，表示启动应用程序后就要初始化Servlet(而不是实例化几个Servlet)。数字代表了Servlet的初始顺序，容器必须保证有较小数字的Servlet先初始化，在使用标注的情况下，如果有多个Servlet在设置loadOnStartup时使用了相同的数字，则容器实现厂商可以自行决定要如何载入哪个Servlet。
+```
+
+
+
+# jsp9大内置对象
+### 1 request
+```
+<%  
+session.setAttribute("a",  "ddddddd"); 
+%>
+// 通过request来获取
+<%=request.getSession().getAttribute("a") %>
+```
+### 2 response
+```
+response.sendRedirect("xxx.jsp")：页面跳转。注意，之前的forward是转发，这里是跳转，注意区分。
+
+response.setCharacterEncoding("gbk")：设置响应编码
+```
+
+### 3 session
+```
+<%  
+session.setAttribute("a",  "ddddddd"); 
+%>  
+<%=session.getAttribute("ad") %>
+```
+### 4 application
+web.xml
+```
+    <context-param>
+        <param-name>foo</param-name>
+        <param-value>bar</param-value>
+    </context-param>
+```
+
+```
+// 获取web.xml中foo的值
+<%=application.getInitParameter("foo") %>
+```
+
+### 5 pageContext
+```
+>forward(String relativeUrlPath):将当前页面转发到另外一个页面或者Servlet组建上;
+>getRequest():返回当前页面的request对象;
+>getResponse():返回当前页面的response对象;
+>getServetConfig():返回当前页面的servletConfig对象;
+>getServletContext():返回当前页面的ServletContext对象,这个对象是所有的页面共享的.
+>getSession():返回当前页面的session对象;
+>findAttribute():按照页面,请求,会话,以及应用程序范围的属性实现对某个属性的搜索;
+>setAttribute():设置默认页面范围或特定对象范围之中的对象.
+>removeAttribute():删除默认页面对象或特定对象范围之中的已命名对象.
+<%@ page contentType="text/html" pageEncoding="GBK"%>
+<html>
+<head><title>www.mldnjava.cn，MLDN高端Java培训</title></head>
+<body>
+<%
+    // 直接从pageContext对象中取得了request
+    String info = pageContext.getRequest().getParameter("info") ;
+%>
+<h3>info = <%=info%></h3>
+<h3>realpath = <%=pageContext.getServletContext().getRealPath("/")%></h3>
+</body>
+</html>
+
+
+<%@ page contentType="text/html" pageEncoding="GBK"%>
+<html>
+<head><title>www.mldnjava.cn，MLDN高端Java培训</title></head>
+<body>
+<%
+    pageContext.forward("pagecontext_forward_demo02.jsp?info=MLDN") ;
+%>
+</body>
+</html>
+```
+
+### 6 out
+用于输出
+
+### 7 page
+### 8 config 基本用不到
+### 9 exception 基本用不到
+
+# jsp三大指令
+### 1 page指令
+定义页面特定的属性，如字符编码，页面响应内容类型等
+```
+<%@ page import="foo.*" session="false" %>
+```
+
+### 2 include指令
+```
+<%@ include file="XXX.html"  %>
+```
+### 3 taglib指令(略)
+
+# JSP(include指令与<jsp:include>动作的区别)
+```
+<%@ page language= "java" contentType="text/html;charset=UTF-8" %>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JSPinclude动作实例</title>
+    </head>
+    <body>
+        
+        <%@ include file = "Static.txt" %>
+        
+        <jsp:include page="Dyamic.jsp" flush="true"></jsp:include>
+    </body>
+</html>
+
+Static.txt————————————————————————————————————————
+
+<%@ page language= "java" contentType="text/html;charset=UTF-8" %>
+<form action="JSPIncludeActiveDemo.jsp" method=post>
+    用户名：    <input type=text name=name><br>
+    密码：    <input type=password name=password><br>
+    <input type=submit value=登录>
+</form>
+
+Dyamic.jsp————————————————————————————————————————
+
+<%@ page language= "java" contentType="text/html;charset=UTF-8" %>
+<br>
+用户名：<%=request.getParameter("name") %>
+<br>
+密码：<%=request.getParameter("password") %>
+<br>
+
+include指令与<jsp:include>动作的区别：
+
+include指令通过file属性来指定被包含的页面。<jsp:include>动作通过page属性来指定被包含的页面。
+使用include指令，被包含的文件被原封不动的插入到包含页面中使用该指令的位置，然后JSP编译器再对这个合成的文件进行编译，所以在一个JSP页面中使用include指令来包含另一个JSP页面，最终编译后的文件只有一个。（静态包含）
+          使用<jsp:include>动作包含文件时，当该动作标识执行后，JSP程序会将请求转发到（注意不是重定向）被包含页面，并将执行结果输出到浏览器中，然后返回页面继续执 行后面的代码，以为web容器执行的两个文件，所以JSP编译器会分别对这两个文件进行编译。（动态包含）
+
+          注意：（使用<jsp:include>动作通常是包含那些经常改动的文件，因为被包含的文件改动不会影响到包含文件，因此不需要对包含文件进行重新编译）
+```
+
+
+-----------------------------------------------------
+
+# jsp servlet实现验证码
+https://blog.csdn.net/lulei9876/article/details/8365500/#comments
+https://blog.csdn.net/chenfengbao/article/details/62424279
+
+# servlet过滤器登录验证及字符编码过滤
+https://www.cnblogs.com/oumyye/p/4273330.html
+
+# vue代替jsp做渲染的结果
+jsp
+```
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script type="text/javascript"
+    src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    
+</head>
+
+<body>
+<div id="app">
+    <%
+        session.setAttribute("ad", "/testWeb/images/test.png"); //把b放到session里，命名为a，  
+        // String M = session.getAttribute(“a”).toString(); //从session里把a拿出来，并赋值给M
+    %>
+    <%=session.getAttribute("ad")%>
+    <img v-bind:src="scr">
+    
+    <!-- 设置vue数据 -->
+    <p>{{ message }}</p>
+</div>  
+</body>
+<script>
+    new Vue({
+        el : '#app',
+        data : {
+            message : 'Hello Vue.js!',
+            scr: "<%=session.getAttribute("ad")%>"
+        }
+    })
+</script>
+</html>
+```
+在客户端打开页面的代码.(vue是js，只有在客户端才起作用,服务器端vue的代码并没有渲染出来，从返回的代码可以看出，代码中还保留有未被渲染的{{ message }}。Vue最好用在前后端分离的项目中)
+```
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script type="text/javascript"
+    src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    
+</head>
+
+<body>
+<div id="app">
+    
+    /testWeb/images/test.png
+    <img v-bind:src="scr">
+    
+    <!-- 设置vue数据 -->
+    <p>{{ message }}</p>
+</div>  
+</body>
+<script>
+    new Vue({
+        el : '#app',
+        data : {
+            message : 'Hello Vue.js!',
+            scr: "/testWeb/images/test.png"
+        }
+    })
+</script>
+</html>
+```
