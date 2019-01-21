@@ -476,6 +476,11 @@ js的话就是这样做：javascript:document.referrer
 一个用过滤器防盗链的例子  
 https://www.jb51.net/article/108559.htm
 
+# servlet监听器(监听在线人数等信息)
+https://blog.csdn.net/sinat_29384657/article/details/74543175
+
+# eclipse导入jar包:
+https://blog.csdn.net/czbqoo01/article/details/72803450
 
 ----------------------------------------------
 # 工具包位置
@@ -812,3 +817,4 @@ jsp
 
 # Jsp和Servlet之间值传递的N种方法
 https://zhuanlan.zhihu.com/p/31019275
+
