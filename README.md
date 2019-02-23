@@ -842,4 +842,5 @@ http://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-
 ```
 
 # java文件上传案例
-https://www.cnblogs.com/xdp-gacl/p/4200090.html
+https://www.cnblogs.com/xdp-gacl/p/4200090.html  
+https://blog.csdn.net/javae100/article/details/79938923
