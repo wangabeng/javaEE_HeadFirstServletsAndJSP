@@ -840,3 +840,6 @@ http://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-
    Item <c:out value="${i}"/><p>
 </c:forEach>
 ```
+
+# java文件上传案例
+https://www.cnblogs.com/xdp-gacl/p/4200090.html
