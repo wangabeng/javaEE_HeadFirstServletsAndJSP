@@ -818,3 +818,12 @@ jsp
 # Jsp和Servlet之间值传递的N种方法
 https://zhuanlan.zhihu.com/p/31019275
 
+# jstl语法
+1 下载 JSTL的2个库
+下载地址：  
+http://mvnrepository.com/artifact/org.glassfish.web/javax.servlet.jsp.jstl  
+http://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api  
+拷贝这两个文件到/ WEB-INF/lib
+
+2 在项目上右击 - build path - confiture build path - libraries - add jars - 找到/ WEB-INF/lib刚拷贝的两个jar文件 然后选中apply
+3 在项目的根目录 / webapp libraris就可以看到刚才导入的jar包了
