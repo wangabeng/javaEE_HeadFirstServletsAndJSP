@@ -818,3 +818,4 @@ jsp
 # Jsp和Servlet之间值传递的N种方法
 https://zhuanlan.zhihu.com/p/31019275
 
+# sql语句中用问号代替参数
