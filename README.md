@@ -850,4 +850,15 @@ https://blog.csdn.net/javae100/article/details/79938923
 
 # servlet实现验证码
 https://www.jianshu.com/p/bc6403531661
->>>>>>> tmp
+
+# sql语句中用问号代替参数
+在网上找的的结论是这样的：
+
+```
+String sql = "SELECT userid,name FROM tuser WHERE userid=? AND password=?" ;
+  pstmt = conn.prepareStatement(sql) ;
+  pstmt.setString(1,userid) ; // 这里设置了第一个？的值
+  pstmt.setString(2,password) ; // 这里设置了第二个？的值
+```
+等你“setString”完所有的？后，你的sql就构造好了
+
