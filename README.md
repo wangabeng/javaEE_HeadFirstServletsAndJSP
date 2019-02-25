@@ -818,4 +818,36 @@ jsp
 # Jsp和Servlet之间值传递的N种方法
 https://zhuanlan.zhihu.com/p/31019275
 
+<<<<<<< HEAD
 # sql语句中用问号代替参数
+=======
+# jstl语法
+一 导入jstl
+1 下载 JSTL的2个库
+下载地址：  
+http://mvnrepository.com/artifact/org.glassfish.web/javax.servlet.jsp.jstl  
+http://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api  
+拷贝这两个文件到/ WEB-INF/lib
+
+2 在项目上右击 - build path - confiture build path - libraries - add jars - 找到/ WEB-INF/lib刚拷贝的两个jar文件 然后选中apply
+3 在项目的根目录 / webapp libraris就可以看到刚才导入的jar包了
+
+二 使用jstl语法  
+1 引用
+```
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+```
+2 使用(获取索引值.index)
+```
+<c:forEach var="i" begin="1" end="5">
+   Item <c:out value="${i}"/><p>
+</c:forEach>
+```
+
+# java文件上传案例
+https://www.cnblogs.com/xdp-gacl/p/4200090.html  
+https://blog.csdn.net/javae100/article/details/79938923
+
+# servlet实现验证码
+https://www.jianshu.com/p/bc6403531661
+>>>>>>> tmp
